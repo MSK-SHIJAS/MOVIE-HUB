@@ -14,7 +14,7 @@ function Net(){
     return(
     
     <div>
-        <button onClick={show}>SHOW</button>
+        <button className='btn btn-dark mt-5 ms-5' onClick={show}>WHAT IS NETFLIX?</button>
         {
             status && 
            "njsxij"

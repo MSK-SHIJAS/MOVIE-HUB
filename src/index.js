@@ -4,13 +4,16 @@ import './index.css';
 import './Login.css';
 // import App from './App';
 import reportWebVitals from './reportWebVitals';
-import Counter from './Counter';
-import Net from './Net';
+// import Form from './Form';
+// import Counter from './Counter';
+// import Net from './Net';
+import Form1 from './Form1'
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Net/>
+    <Form1/>
   </React.StrictMode>
 );
 
