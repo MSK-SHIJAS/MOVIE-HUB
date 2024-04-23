@@ -1,159 +1,285 @@
 
-import React, { useState } from "react";
+﻿
+import React, { useState, useEffect } from "react";
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
 import './Login.css'
 import 'bootstrap/dist/css/bootstrap.css';
 
 function App1() {
-  // State variables
-  const [email, setEmail] = useState(""); // Store email input value
-  const [password, setPassword] = useState(""); // Store password input value
-  const [isVisible, setIsVisible] = useState(false); // Toggle visibility of user list table
-  const [backupData, setBackupData] = useState([]); // Store backup of original user data
+  const [isVisible, setIsVisible] = useState(false);
   const [search, setSearch] = useState(""); // Store search query
-  const [form, setForm] = useState([]); // Store user data entered through the form
+  const [backupData, setBackupData] = useState([]);
 
-  // Function to handle form submission
+  const [form, setForm] = useState([]);
+
+  // preview of image
+  const [preview, setPreview] = useState("");
+  // states for form
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
+  const [price, setPrice] = useState("");
+  const [image, setImage] = useState("");
+  const [description, setDescription] = useState("");
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Validation checks
-    if (email === "") {
-      return alert("Please enter an email address");
-    }
-    if (password === "") {
-      return alert("Please enter a password");
-    }
-    if (password.length < 8) {
-      return alert("Password must be at least 8 characters long");
-    }
-    if (password.length > 16) {
-      return alert("Password cannot be more than 16 characters long");
-    }
+    // Form validation checks...
 
-    // Add user data to form state array
     setIsVisible(true);
-    setForm([...form, { email: email, password: password }]);
-    setBackupData([...form, { email: email, password: password }]);
+    setForm([
+      ...form,
+      {
+        name: name,
+        category: category,
+        image: URL.createObjectURL(image),
+        price: price,
+        description: description,
+      },
+    ]);
+    setBackupData([
+      ...form,
+      {
+        name: name,
+        category: category,
+        image: URL.createObjectURL(image),
+        price: price,
+        description: description,
+      },
+    ]);
 
-    // Clear input fields
-    setEmail("");
-    setPassword("");
+
+
+    
   };
 
-  // Function to handle deletion of a user
-  const handleDeleteUser = (indexOf) => {
+  // delete card
+  const handleDelete = (indexOf) => {
     const status = window.confirm("Delete?");
-
     if (status) {
       const result = form.filter((item, index) => index !== indexOf);
       setForm(result);
     }
+  };
+  // delete card
+
+  const handleDeleteAll = () => {
+    const status = window.confirm("Delete all data?");
+
+    if (status) {
+      setForm([]);
+      setIsVisible(false);
+    }
+  };
+
+  // const handleSearch = (data) => {
+  //   setSearch(data);
+
+  //   if (data === "") {
+  //     setForm(backupData);
+  //   } else {
+  //     const filteredItems = form.filter((user) =>
+  //       user.email.toLowerCase().includes(data.toLowerCase())
+  //     );
+  //     setForm(filteredItems);
+  //   }
+  // };
+
+  // done
+  // -------------
+  // delete function
+  // validation ( length, required )
+  // search
+  // localstorage
+  // delete all
+
+  // functions
+  // ----------------
+  // toast
+  // validation
+  // modal
+  // edit
+  // filter
+  // sort
+  // paginations
+
+  // handle image preview
+  const handleChange = (e) => {
+    const file = e.target.files[0];
+    setImage(file);
+    setPreview(URL.createObjectURL(file));
+    console.log(file, "---");
+  };
+
+  // if user again click image to reset image
+  const resetImage = () => {
+    setPreview("");
+    setImage("");
   };
 
   // Function to handle search
   const handleSearch = (data) => {
     setSearch(data);
 
-    // Filter user data based on search query
-    if (data === "") {
-      setForm(backupData);
-    } else {
-      const filteredItems = form.filter((user) =>
-        user.email.toLowerCase().includes(data.toLowerCase())
-      );
-      setForm(filteredItems);
-    }
-  };
+        // Filter user data based on search query
 
-  // delete function
-  // validation ( length, required )
-  // search
 
-  // toast
-  // validation
-  // modal
-  // edit
-  // localstorage
-  // filter
-  // sort
-  // paginations
+        
+        if (data === "") {
+          setForm(backupData);
+        } else {
+          const filteredItems = form.filter((user) =>
+            user.name.toLowerCase().includes(data.toLowerCase())
+          );
+          setForm(filteredItems);
+        }
+        };
+    
+
+
 
   return (
+    <>
     <div className="A">
-        <div>
-      {/* Form */}
-      <form className="form" onSubmit={handleSubmit}>
-        <h1>Add</h1>
-        <div className="form-div">
-          <input
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className="form-control"
-            type="text"
-            placeholder="Email"
-          />
-        </div>
-        <div className="form-div">
-          <input
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="form-control mt-2"
-            type="password"
-            placeholder="Password"
-          />
-        </div>
-        <div className="form-div">
-          <input
-            className="btn btn-primary mt-2"
-            type="submit"
-            placeholder="Submit"
-          />
-        </div>
-      </form>
-
-      {/* User list */}
-      <div className="flex">
-        {isVisible && (
-          <div>
-            {/* Search input */}
-            <input
-              type="search"
-              className="form-control mt-2"
-              placeholder="Search"
-              value={search}
-              onChange={(e) => handleSearch(e.target.value)}
+      {/* --------------- form ----------- */}
+      <Container className="mt-5">
+        <Form onSubmit={handleSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Product Name</Form.Label>
+            <Form.Control
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              placeholder="Name"
             />
-            {/* User table */}
-            <table>
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {form.map((item, index) => {
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Category </Form.Label>
+            <Form.Control
+              type="text"
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              placeholder="Name"
+            />
+          </Form.Group>
+
+          <Form.Group controlId="formFile" className="mb-3">
+            <Form.Label>Upload Product Image</Form.Label>
+            <Form.Control
+              type="file"
+              onClick={resetImage}
+              onChange={handleChange}
+            />
+          </Form.Group>
+
+          {/* image preview */}
+          <Card
+            className="rounded-3"
+            style={{ width: "18rem", height: "300px" }}
+          >
+            <Card.Img
+              variant="top"
+              className=""
+              
+              style={{ width: "100%", height: "100%" ,objectFit:"contain",padding:'30px 0px'}}
+              src={preview}
+            />
+          </Card>
+          {/* image preview */}
+
+          {/* product price */}
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>Price in(&#8377;) </Form.Label>
+            <Form.Control
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              placeholder="Amount"
+            />
+          </Form.Group>
+          {/* product price */}
+
+          {/* description */}
+          <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+            <Form.Label>Description about Product</Form.Label>
+            <Form.Control
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              as="textarea"
+              rows={3}
+            />
+          </Form.Group>
+          {/* description */}
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+      </Container>
+</div>
+      {/* --------------- form ----------- */}
+
+      {/* ------- cards ------- */}
+      {isVisible && (
+        <>
+          <Container className="Container">
+          <input
+                type="search"
+                className="form-control mt-5"
+                placeholder="Search"
+                value={search}
+                onChange={(e) => handleSearch(e.target.value)}
+              />
+
+
+            <Button className="mt-2" onClick={handleDeleteAll} variant="outline-danger">
+              Delete All products
+            </Button>{" "}
+            <div className="grid mb-5 mt-3">
+              {form &&
+                form.map((item, index) => {
                   return (
-                    <tr key={index}>
-                      <td>{index}</td>
-                      <td>{item.email}</td>
-                      <td>{item.password}</td>
-                      <tr>
-                        <button className="btn btn-danger mt-5"onClick={() => handleDeleteUser(index)}>
+                    <Card style={{ width: "18rem", height: "32rem" }}>
+                      <Card.Img
+                        variant="top"
+                        className="mt-3"
+                        loading="lazy"
+                        style={{
+                          width: "100%",
+                          height: "15rem",
+                          objectFit: "contain",
+                        }}
+                        src={item.image}
+                      />
+                      <Card.Body>
+                        <Card.Title>{item.name}</Card.Title>
+                        <Card.Text>{item.category}</Card.Text>
+                        <Card.Text style={{height:"100px"}} className="overflow-auto">
+                          {item.description}
+                        </Card.Text>
+                        <Button variant="outline-success">Edit</Button>{" "}
+                        <Button
+                          onClick={() => handleDelete(index)}
+                          variant="outline-danger"
+                        >
                           Delete
-                        </button>
-                      </tr>
-                    </tr>
+                        </Button>{" "}
+                      </Card.Body>
+                    </Card>
                   );
                 })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-    </div>
-    </div>
+            </div>
+          </Container>
+        </>
+      )}
+
+      {/* ------- cards ------- */}
+      {}
+      </>
   );
 }
 

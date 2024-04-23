@@ -10,3 +10,13 @@
     justify-content: center;
     align-items: center;
 }
+
+.Container{
+    position: absolute;
+    margin-top: 150px;
+}
+.grid{
+    display:grid;
+    grid-template-columns: auto auto auto  auto auto;
+    position: absolute;
+}
