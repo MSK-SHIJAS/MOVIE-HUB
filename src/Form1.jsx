@@ -1,19 +1,23 @@
-
-﻿
 import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
-import './Login.css'
-import 'bootstrap/dist/css/bootstrap.css';
+import { Link } from "react-router-dom";
+import {dummyData} from "./dummydata";
 
 function App1() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [search, setSearch] = useState(""); // Store search query
-  const [backupData, setBackupData] = useState([]);
 
+
+  // dummy data
+  // 
+  
+
+  const [isVisible, setIsVisible] = useState(false);
+  const [backupData, setBackupData] = useState([]);
+  const [search, setSearch] = useState("");
   const [form, setForm] = useState([]);
+  const [query, setQuery] = useState("");
 
   // preview of image
   const [preview, setPreview] = useState("");
@@ -23,6 +27,7 @@ function App1() {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -40,27 +45,13 @@ function App1() {
         description: description,
       },
     ]);
-    setBackupData([
-      ...form,
-      {
-        name: name,
-        category: category,
-        image: URL.createObjectURL(image),
-        price: price,
-        description: description,
-      },
-    ]);
-
-
-
-    
   };
 
   // delete card
   const handleDelete = (indexOf) => {
     const status = window.confirm("Delete?");
     if (status) {
-      const result = form.filter((item, index) => index !== indexOf);
+      const result = dummyData.filter((item, index) => index !== indexOf);
       setForm(result);
     }
   };
@@ -120,30 +111,8 @@ function App1() {
     setImage("");
   };
 
-  // Function to handle search
-  const handleSearch = (data) => {
-    setSearch(data);
-
-        // Filter user data based on search query
-
-
-        
-        if (data === "") {
-          setForm(backupData);
-        } else {
-          const filteredItems = form.filter((user) =>
-            user.name.toLowerCase().includes(data.toLowerCase())
-          );
-          setForm(filteredItems);
-        }
-        };
-    
-
-
-
   return (
-    <>
-    <div className="A">
+    <div>
       {/* --------------- form ----------- */}
       <Container className="mt-5">
         <Form onSubmit={handleSubmit}>
@@ -184,8 +153,12 @@ function App1() {
             <Card.Img
               variant="top"
               className=""
-              
-              style={{ width: "100%", height: "100%" ,objectFit:"contain",padding:'30px 0px'}}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "contain",
+                padding: "30px 0px",
+              }}
               src={preview}
             />
           </Card>
@@ -220,66 +193,81 @@ function App1() {
           </Button>
         </Form>
       </Container>
-</div>
+
       {/* --------------- form ----------- */}
 
       {/* ------- cards ------- */}
-      {isVisible && (
+    
         <>
-          <Container className="Container">
+          {/* search feature */}
           <input
-                type="search"
-                className="form-control mt-5"
-                placeholder="Search"
-                value={search}
-                onChange={(e) => handleSearch(e.target.value)}
-              />
+            type="text"
+            className=""
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+          />
+          {/* search feature */}
 
-
-            <Button className="mt-2" onClick={handleDeleteAll} variant="outline-danger">
+          <Container>
+            <Button
+              className="mt-5"
+              onClick={handleDeleteAll}
+              variant="outline-danger"
+            >
               Delete All products
             </Button>{" "}
-            <div className="grid mb-5 mt-3">
-              {form &&
-                form.map((item, index) => {
-                  return (
-                    <Card style={{ width: "18rem", height: "32rem" }}>
-                      <Card.Img
-                        variant="top"
-                        className="mt-3"
-                        loading="lazy"
-                        style={{
-                          width: "100%",
-                          height: "15rem",
-                          objectFit: "contain",
-                        }}
-                        src={item.image}
-                      />
-                      <Card.Body>
-                        <Card.Title>{item.name}</Card.Title>
-                        <Card.Text>{item.category}</Card.Text>
-                        <Card.Text style={{height:"100px"}} className="overflow-auto">
-                          {item.description}
-                        </Card.Text>
-                        <Button variant="outline-success">Edit</Button>{" "}
-                        <Button
-                          onClick={() => handleDelete(index)}
-                          variant="outline-danger"
-                        >
-                          Delete
-                        </Button>{" "}
-                      </Card.Body>
-                    </Card>
-                  );
-                })}
+            <div className="d-flex flex-wrap gap-4 mb-5 mt-3">
+              {dummyData &&
+                dummyData
+                  .filter((i) =>
+                    i.title.toLowerCase().includes(query.toLowerCase())
+                  )
+                  .map((item, index) => {
+                    return (
+                      <Card style={{ width: "18rem", height: "32rem" }}>
+                        <Card.Img
+                          variant="top"
+                          className="mt-3"
+                          loading="lazy"
+                          style={{
+                            width: "100%",
+                            height: "15rem",
+                            objectFit: "contain",
+                          }}
+                          src={item.image}
+                        />
+                        <Card.Body>
+                          <Card.Title>{item.name}</Card.Title>
+                          <Card.Text>{item.title}</Card.Text>
+                          <Card.Text
+                            style={{ height: "100px" }}
+                            className="overflow-auto"
+                          >
+                            {item.description}
+                          </Card.Text>
+                          <Link to={'/edit'} state={item} >
+                            <Button variant="outline-success">Edit</Button>{" "}
+                          </Link>
+                          <Link to={'/view'} state={item}>
+                          <Button
+                            
+                            variant="outline-danger"
+                            >
+                            View
+                          </Button>{" "}
+                            </Link>
+                        </Card.Body>
+                      </Card>
+                    );
+                  })}
             </div>
           </Container>
         </>
-      )}
+      
 
       {/* ------- cards ------- */}
       {}
-      </>
+    </div>
   );
 }
 

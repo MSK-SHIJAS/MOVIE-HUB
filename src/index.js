@@ -7,14 +7,51 @@ import reportWebVitals from './reportWebVitals';
 // import Form from './Form';
 // import Counter from './Counter';
 // import Net from './Net';
-import Form1 from './Form1'
+// import Form1 from './Form1'
+// import Edit from './Edit';
+// import View from './View'
+// import { BrowserRouter, Route, Routes } from 'react-router-dom';
+// import { NewHome } from './NewHome';
+import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
+import Effect from './Effect';
+import FetchData from './FetchData';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <Form1/>
-  </React.StrictMode>
+
+//   <BrowserRouter>
+//     <Routes>
+//       {/* <Route path="/home" element={<Home/>} /> */}
+//       <Route path="/" element={<Form1/>} />
+//       {/* <Route path="/about" element={<About/>} /> */}
+//       <Route path="/edit" element={<Edit/>} />
+// <Route path="/view" element={<View/>} />
+//     </Routes>
+//   </BrowserRouter>
+
+// card ------------------------------------------------------------------
+
+
+//    <React.StrictMode>
+//   <NewHome/>
+//    </React.StrictMode>
+
+
+// useeffect ------------------------------------------------------------------
+
+   <React.StrictMode>
+<BrowserRouter>
+<Routes>
+   <Route path="/" element={<Effect/>} />
+   <Route path="/Link" element={<FetchData/>} />
+   </Routes>
+   </BrowserRouter>
+   </React.StrictMode>
+
+
+
+
 );
 
 // If you want to start measuring performance in your app, pass a function
