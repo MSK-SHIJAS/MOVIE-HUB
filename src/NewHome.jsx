@@ -9,10 +9,9 @@ export const NewHome = () => {
 let datas=[
     {
     heading:'first heading',
-    body:'first body',
+    body:'first',
     img:a,
-
-
+    title: 'FINANCE',
     class:'bg-success'
 },
 {
@@ -62,7 +61,7 @@ let datas=[
     body:'first body',
     img:a,
     class:'bg-success'
-},
+}
 
 
 ]
@@ -72,7 +71,8 @@ let datas=[
     <Navigationbars/>
     <div className='d-flex flex-wrap gap-4 justify-content-center m-auto' style={{width:'70%'}}>
     {datas.map((item)=>(
-        <PropsCard heading={item.heading} body={item.body} img={item.img} class={item.class}/>
+        <PropsCard heading={item.heading}
+        title={item.title} body={item.body} img={item.img} class={item.class}/>
         
     ))};
     </div>

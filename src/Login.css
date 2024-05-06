@@ -17,7 +17,7 @@
 }
 .grid{
     display:grid;
-    grid-template-columns: auto auto auto  auto auto;
+    grid-template-columns: auto auto auto;
     position: absolute;
 }
 
@@ -26,4 +26,7 @@
     display:grid;
     grid-template-columns: auto auto auto  auto auto;
     position: absolute;
+}
+h2{
+    color: white;
 }
