@@ -2,7 +2,6 @@ import React from 'react'
 import {PropsCard}  from './propsCard'
 import a from './a.png'
 import 'bootstrap/dist/css/bootstrap.css';
-import Navigationbars from './Navigationbar';
 
 export const NewHome = () => {
 
@@ -68,7 +67,6 @@ let datas=[
 
   return (
     <>
-    <Navigationbars/>
     <div className='d-flex flex-wrap gap-4 justify-content-center m-auto' style={{width:'70%'}}>
     {datas.map((item)=>(
         <PropsCard heading={item.heading}

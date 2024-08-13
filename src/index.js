@@ -7,14 +7,9 @@ import reportWebVitals from './reportWebVitals';
 // import Form from './Form';
 // import Counter from './Counter';
 // import Net from './Net';
-// import Form1 from './Form1'
-// import Edit from './Edit';
-// import View from './View'
 // import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { NewHome } from './NewHome';
 import { BrowserRouter, Route, Router, Routes } from 'react-router-dom';
-import Effect from './Effect';
-import FetchData from './FetchData';
 import Movies from './Movies';
 import Detail from './Detail';
 // import { Home } from './Home';
@@ -36,9 +31,9 @@ root.render(
 // card ------------------------------------------------------------------
 
 
-//    <React.StrictMode>
-//   <NewHome/>
-//    </React.StrictMode>
+  //  <React.StrictMode>
+  // <NewHome/>
+  //  </React.StrictMode>
 
 
 // useeffect ------------------------------------------------------------------
